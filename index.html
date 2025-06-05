@@ -107,6 +107,7 @@ const URL_SHEET = "https://opensheet.elk.sh/1CiXjiUw3QqGwL82elmwJjGZGjkV5HmJJm7U
       if (equipo) {
      resultadoDiv.innerHTML = `
   <h2>Características de ${equipo.Codigo}</h2>
+  <p><strong>Nombre:</strong> ${equipo.Codigo || "N/D"}</p>
   <p><strong>Nombre:</strong> ${equipo.Nombre || "N/D"}</p>
   <p><strong>Ubicación:</strong> ${equipo.Ubicacion || "N/D"}</p>
   <p><strong>Procesador:</strong> ${equipo.Procesador || "N/D"}</p>
