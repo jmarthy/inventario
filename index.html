@@ -1,1 +1,104 @@
+<!DOCTYPE html>
+<head>
 
+  <title>Inventario de Equipos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #aaa;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    #login, #consulta, #resultado {
+      display: none;
+    }
+    label, input {
+      display: block;
+      margin-top: 10px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      background: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Inventario de Equipos</h1>
+
+
+  <div id="login">
+    <label>Usuario:
+      <input type="text" id="usuario" />
+    </label>
+    <label>Contraseña:
+      <input type="password" id="clave" />
+    </label>
+    <button onclick="acceder()">Entrar</button>
+  </div>
+
+  
+  <div id="consulta">
+    <label>Introduce el código del equipo:
+      <input type="text" id="codigoInput" />
+    </label>
+    <button onclick="buscar()">Buscar</button>
+  </div>
+
+
+  <div id="resultado"></div>
+
+  <script>
+    const USUARIO = "admin";
+    const CLAVE = "1234";
+    const URL_SHEET = "https://opensheet.elk.sh/1Gj0GiiOKzeDNqBDF82D_RHIXzZ24q8h_/EJEMPLO";
+
+
+
+    document.getElementById("login").style.display = "block";
+
+    function acceder() {
+      const u = document.getElementById("usuario").value;
+      const c = document.getElementById("clave").value;
+      if (u === USUARIO && c === CLAVE) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("consulta").style.display = "block";
+      } else {
+        alert("Usuario o clave incorrectos");
+      }
+    }
+
+    async function buscar() {
+      const codigo = document.getElementById("codigoInput").value.trim().toUpperCase();
+      const response = await fetch(URL_SHEET);
+      const data = await response.json();
+      const equipo = data.find(e => e.Codigo.toUpperCase() === codigo);
+
+      const resultadoDiv = document.getElementById("resultado");
+      if (equipo) {
+        resultadoDiv.innerHTML = `
+          <h2>Características de ${equipo.Codigo}</h2>
+          <p><strong>Nombre:</strong> ${equipo.Nombre}</p>
+          <p><strong>Ubicación:</strong> ${equipo.Ubicacion}</p>
+          <p><strong>Procesador:</strong> ${equipo.Procesador}</p>
+          <p><strong>RAM:</strong> ${equipo.RAM}</p>
+          <p><strong>Disco:</strong> ${equipo.Disco}</p>
+        `;
+      } else {
+        resultadoDiv.innerHTML = `<p style="color:red;">Equipo no encontrado</p>`;
+      }
+
+      resultadoDiv.style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
