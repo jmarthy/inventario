@@ -77,28 +77,48 @@
     }
 
     async function buscar() {
-      const codigo = document.getElementById("codigoInput").value.trim().toUpperCase();
-      const response = await fetch(URL_SHEET);
-      const data = await response.json();
-      const equipo = data.find(e => e.Codigo.toUpperCase() === codigo);
+  console.log("buscar() llamada");
 
-      const resultadoDiv = document.getElementById("resultado");
-      if (equipo) {
-        resultadoDiv.innerHTML = `
-          <h2>Características de ${equipo.Codigo}</h2>
-          <p><strong>Nombre:</strong> ${equipo.Nombre}</p>
-          <p><strong>Ubicación:</strong> ${equipo.Ubicacion}</p>
-          <p><strong>Procesador:</strong> ${equipo.Procesador}</p>
-          <p><strong>RAM:</strong> ${equipo.RAM}</p>
-          <p><strong>Disco:</strong> ${equipo.Disco}</p>
-        `;
-      } else {
-        resultadoDiv.innerHTML = `<p style="color:red;">Equipo no encontrado</p>`;
-      }
+  const codigo = document.getElementById("codigoInput").value.trim().toUpperCase();
+  console.log("Código ingresado:", codigo);
 
-      resultadoDiv.style.display = "block";
+  const resultadoDiv = document.getElementById("resultado");
+  resultadoDiv.style.display = "none";
+  resultadoDiv.innerHTML = "";
+
+  if (!codigo) {
+    alert("Por favor ingresa un código.");
+    return;
+  }
+
+  try {
+    const response = await fetch(URL_SHEET);
+    console.log("Respuesta fetch status:", response.status);
+    if (!response.ok) throw new Error("No se pudo cargar la base de datos");
+
+    const data = await response.json();
+    console.log("Datos JSON:", data);
+
+    console.log("Codigos en data:", data.map(e => e.Codigo));
+
+    const equipo = data.find(e => e.Codigo && e.Codigo.toUpperCase() === codigo);
+
+    if (equipo) {
+      resultadoDiv.innerHTML = `
+        <h2>Características de ${equipo.Codigo}</h2>
+        <p><strong>Nombre:</strong> ${equipo.Nombre || "N/D"}</p>
+        <p><strong>Ubicación:</strong> ${equipo.Ubicacion || "N/D"}</p>
+        <p><strong>Procesador:</strong> ${equipo.Procesador || "N/D"}</p>
+        <p><strong>RAM:</strong> ${equipo.RAM || "N/D"}</p>
+        <p><strong>Disco:</strong> ${equipo.Disco || "N/D"}</p>
+      `;
+    } else {
+      resultadoDiv.innerHTML = `<p style="color:red;">Equipo no encontrado</p>`;
     }
-  </script>
+  } catch (error) {
+    console.error("Error:", error);
+    resultadoDiv.innerHTML = `<p style="color:red;">Error al cargar datos: ${error.message}</p>`;
+  }
 
-</body>
-</html>
+  resultadoDiv.style.display = "block";
+}
