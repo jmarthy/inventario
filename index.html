@@ -105,14 +105,15 @@ const URL_SHEET = "https://opensheet.elk.sh/1CiXjiUw3QqGwL82elmwJjGZGjkV5HmJJm7U
       const equipo = data.find(e => e.Codigo && e.Codigo.trim().toUpperCase() === codigo);
 
       if (equipo) {
-        resultadoDiv.innerHTML = `
-          <h2>Características de ${equipo.Codigo}</h2>
-          <p><strong>Nombre:</strong> ${equipo.Nombre || "N/D"}</p>
-          <p><strong>Ubicación:</strong> ${equipo.Ubicacion || "N/D"}</p>
-          <p><strong>Procesador:</strong> ${equipo.Procesador || "N/D"}</p>
-          <p><strong>RAM:</strong> ${equipo.RAM || "N/D"}</p>
-          <p><strong>Disco:</strong> ${equipo.Disco || "N/D"}</p>
-        `;
+     resultadoDiv.innerHTML = `
+  <h2>Características de ${equipo.Codigo}</h2>
+  <p><strong>Nombre:</strong> ${equipo.Nombre || "N/D"}</p>
+  <p><strong>Ubicación:</strong> ${equipo["Ubicación"] || "N/D"}</p>
+  <p><strong>Procesador:</strong> ${equipo.Procesador || "N/D"}</p>
+  <p><strong>RAM:</strong> ${equipo.RAM || "N/D"}</p>
+  <p><strong>Disco:</strong> ${equipo.SSD || "N/D"}</p>
+`;
+
       } else {
         resultadoDiv.innerHTML = `<p style="color:red;">Equipo no encontrado</p>`;
       }
