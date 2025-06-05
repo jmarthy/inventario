@@ -61,7 +61,8 @@
 <script>
   const USUARIO = "admin";
   const CLAVE = "1234";
-const URL_SHEET = "https://opensheet.elk.sh/1CiXjiUw3QqGwL82elmwJjGZGjkV5HmJJm7Uy5TBVFsc/EJEMPLO"
+const URL_SHEET = "https://opensheet.elk.sh/1VL0aH0gfV8YLRWsHpU5_8FTJzAlk0rhP4SK7xlBsb5M/EJEMPLO";
+
 
 
   document.getElementById("login").style.display = "block";
@@ -105,15 +106,16 @@ const URL_SHEET = "https://opensheet.elk.sh/1CiXjiUw3QqGwL82elmwJjGZGjkV5HmJJm7U
       const equipo = data.find(e => e.Codigo && e.Codigo.trim().toUpperCase() === codigo);
 
       if (equipo) {
-     resultadoDiv.innerHTML = `
+    resultadoDiv.innerHTML = `
   <h2>Características de ${equipo.Codigo}</h2>
-  <p><strong>Codigo:</strong> ${equipo.Codigo || "N/D"}</p>
+  <p><strong>Código:</strong> ${equipo.Codigo || "N/D"}</p>
   <p><strong>Nombre:</strong> ${equipo.Nombre || "N/D"}</p>
   <p><strong>Ubicación:</strong> ${equipo.Ubicacion || "N/D"}</p>
   <p><strong>Procesador:</strong> ${equipo.Procesador || "N/D"}</p>
   <p><strong>RAM:</strong> ${equipo.RAM || "N/D"}</p>
   <p><strong>Disco:</strong> ${equipo.SSD || "N/D"}</p>
 `;
+
 
       } else {
         resultadoDiv.innerHTML = `<p style="color:red;">Equipo no encontrado</p>`;
